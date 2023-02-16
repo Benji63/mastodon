@@ -69,7 +69,7 @@ apt-get install openssh-server
 
 - On part du principe que sudo et installé et que l'utilisateur est dans le fichier sudoers (`nano /etc/sudoers`)
 
-- Recuperer l'adresse IP et la
+- Recuperer l'adresse IP via `ip a`
 
 
 ----------
