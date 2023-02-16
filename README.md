@@ -17,14 +17,14 @@
 
 - Installer GIT:
 ```bash
-Apt-get install git
+apt-get install git
 ```
 
 
 - Installer pip :
 
 ```bash
-Apt install python3-pip
+apt install python3-pip
 ```
 
 ou
