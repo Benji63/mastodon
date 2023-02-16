@@ -69,7 +69,12 @@ apt-get install openssh-server
 
 - On part du principe que sudo et installé et que l'utilisateur est dans le fichier sudoers (`nano /etc/sudoers`)
 
-- Recuperer l'adresse IP et la mettre dans le fichier `inventory.ini`, en dessous de la variable `[mastodon]`
+- Recuperer l'adresse IP et la
+
+
+----------
+ ### MACHINE HOTE 
+ mettre l'IP dans le clients dans le fichier `inventory.ini`, en dessous de la variable `[mastodon]`
 
 - Dans le même fichier , personnaliser les champs suivant avec un utulisateur qui a les droit sudoeurs
 ```bash
@@ -92,10 +97,6 @@ SMTP_PORT #a changer uniquement si vous possedez deja un serveur SMTP
 SMTP_LOGIN #a changer uniquement si vous possedez deja un serveur SMTP
 SMTP_PASSWORD #a changer uniquement si vous possedez deja un serveur SMTP
 ```
-
-
-----------
-
 ### Lancement du script
 
 
