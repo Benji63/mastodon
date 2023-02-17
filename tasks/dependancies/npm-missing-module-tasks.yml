@@ -1,0 +1,18 @@
+---
+  #Installation des packages npm via le module npm
+    - name: Install node.js package.
+      npm:
+        name: "{{ item }}"
+        path: /home/mastodon
+      loop:
+         - dotenv
+         - express
+         - throng
+         - redis
+         - pg
+         - npmlog
+         - url
+         - uuid
+         - fs
+         - ws
+         - jsdom

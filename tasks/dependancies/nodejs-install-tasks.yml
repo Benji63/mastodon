@@ -1,0 +1,21 @@
+---
+#On crée un dossier via le module file
+    - name: Create a directory if it does not exist
+      ansible.builtin.file:
+        path: /tmp/curlcmd
+        state: directory
+        mode: '0755'
+
+  #Récupération du fichier setup_16.x via le module curl et création d'un script avec le contenu de ce fichier
+    - name: Download curl 
+      ansible.builtin.get_url:
+        url: https://deb.nodesource.com/setup_16.x
+        dest: /tmp/curlcmd/curlsetup.sh
+  
+  #Modification des permissions du script curlsetup.sh ajout du mode executable (+x)
+    - name: Changing perm adding "+x"
+      file: dest=/tmp/curlcmd/curlsetup.sh mode=a+x
+
+  #Execution du script
+    - name: execution du script 
+      shell: /tmp/curlcmd/curlsetup.sh

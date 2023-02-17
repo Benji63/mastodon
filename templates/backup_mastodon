@@ -1,0 +1,2 @@
+MAILTO=root
+0 */12 * * *    root    /opt/backup_mastodon.sh

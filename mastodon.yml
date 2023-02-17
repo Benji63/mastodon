@@ -1,0 +1,72 @@
+---
+- hosts: mastodon
+  become: true
+  connection: ssh
+  tasks:
+
+    # - name: Changement de hostname et de dns
+    #   include_tasks: tasks/machineconfig/changement-dhcp-hostname-tasks.yml
+
+    # - name: Installation dependances
+    #   include_tasks: tasks/dependancies/systeme-dependance-tasks.yml
+
+    # - name: Installation du module setup_16.x
+    #   include_tasks: tasks/dependancies/nodejs-install-tasks.yml
+
+    # - name: Installation du module postgres
+    #   include_tasks: tasks/dependancies/postgres-installation-tasks.yml
+
+    # - name: Installation suite dependances and enable corepack
+    #   include_tasks: tasks/dependancies/systeme-dependance-2-tasks.yml
+
+    - name: Creation User and Package.json
+      include_tasks: tasks/machineconfig/creation-utilisateur-json-tasks.yml
+
+    - name: Installation npm dependances
+      include_tasks: tasks/dependancies/ram-npm-tasks.yml
+
+    - name: Telechargement mastodon
+      include_tasks: tasks/mastodon/clone-mastodon-tasks.yml
+
+    - name: Installation de ruby
+      include_tasks: tasks/ruby/ruby-install-tasks.yml
+
+- hosts: db
+  become: true
+  connection: ssh
+  tasks:
+
+    - name: Creation db
+      include_tasks: tasks/db/creation-db-tasks.yml
+
+- hosts: mastodon
+  become: true
+  connection: ssh
+  tasks:
+
+    - name: Installation bundle
+      include_tasks: tasks/mastodon/bundle-tasks.yml
+
+    - name: Creation .env.production file
+      include_tasks: tasks/machineconfig/creation-env-production-tasks.yml
+
+    - name: Installation mastodon
+      include_tasks: tasks/mastodon/mastodon-precompile-tasks.yml
+
+    - name: Configuration nginx and certificate
+      include_tasks: tasks/nginx/nginx-installation-tasks.yml
+
+    - name: Installation npm dependances
+      include_tasks: tasks/dependancies/npm-missing-module-tasks.yml
+
+    - name: Configuration nginx 
+      include_tasks: tasks/nginx/config-nginx-tasks.yml
+
+    - name: Mise en place des services mastodon
+      include_tasks: tasks/mastodon/mastodon-service-config-tasks.yml
+
+    - name: Mise en place des backups
+      include_tasks: tasks/backup/service-backup-tasks.yml
+
+    - name: Installation mastodon
+      include_tasks: tasks/mastodon/mastodon-dbsetup-tasks.yml

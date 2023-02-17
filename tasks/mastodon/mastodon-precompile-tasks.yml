@@ -1,0 +1,24 @@
+---
+
+    - name: Recursively change ownership of a live directory
+      ansible.builtin.file:
+        path: /home/mastodon/live
+        state: directory
+        recurse: yes
+        owner: mastodon
+        group: mastodon
+
+  #Lancement de assets:precompile
+    - name: Lancer assets:precompile ###Pas d idee pour changer ça
+      shell: |
+        /home/mastodon/.rbenv/shims/bundle install
+        RAILS_ENV=production /home/mastodon/.rbenv/shims/bundle exec rails assets:precompile
+      args:
+         chdir: /home/mastodon/live
+
+  #Lancement de rbenv init
+    - name: Configure mastodon
+      become_user: mastodon
+      shell: eval "$(rbenv init -)"
+      args:
+        chdir: /home/mastodon/live

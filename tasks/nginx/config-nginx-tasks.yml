@@ -1,0 +1,31 @@
+---
+  #Copie du fichier nginx.conf vers l'endroit ou sont les sites disponibles de nginx en le renommant mastodon via le module copy
+    - name: Copy {{ http_server }}.conf file
+      copy:
+        src: /home/mastodon/live/dist/{{ http_server }}.conf
+        dest: /etc/{{ http_server }}/sites-available/mastodon
+        remote_src: yes
+
+  #Création d'un lien symbolique dans le dossier des sites activés de nginx via le module file et le state link
+    - name: Create a symbolic link for mastodon
+      file:
+        src: /etc/{{ http_server }}/sites-available/mastodon
+        dest: /etc/{{ http_server }}/sites-enabled/mastodon
+        owner: mastodon
+        group: mastodon
+        state: link
+
+  #Supression des fichiers par défaut de nginx via le module file et l'état absent 
+    - name: Supprimer default "{{ http_server }}"
+      file:
+        state: absent
+        path: "{{ item.line }}"
+      loop:
+          - { line: '/etc/{{ http_server }}/sites-enabled/default' }
+          - { line: '/etc/{{ http_server }}/sites-available/default' }
+
+  #Redémarrage de nginx via le module service
+    - name: Restart service "{{ http_server }}", in all cases
+      service:
+        name: "{{ http_server }}"
+        state: restarted

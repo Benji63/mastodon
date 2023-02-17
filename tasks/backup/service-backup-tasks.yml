@@ -1,0 +1,43 @@
+---
+  #Recopie et creation du fichier de backup_mastodon
+  - name: Creation fichier pour le service de backup
+    template:
+       src: backup_mastodon.sh
+       dest: /opt/backup_mastodon.sh
+  
+  #Modification des permissions du script backup_mastodon.sh ajout du mode executable (+x)
+  - name: Changing perm adding "+x"
+    file: dest=/opt/backup_mastodon.sh mode=a+x
+
+  #Ajout d'un nouveau service pour les backup
+  - name: Creation service de backup
+    template:
+       src: backup_mastodon.service
+       dest: /etc/systemd/system/backup_mastodon.service
+
+  #Recopie et creation du fichier de backup_mastodon
+  - name: Creation fichier pour le service de backup
+    template:
+       src: backup_mastodon
+       dest: /etc/cron.d/backup_mastodon
+
+  - name: Création des répertoires
+    ansible.builtin.file:
+      path: /home/mastodon/backups{{ item }}
+      state: directory
+      mode: 0755
+    with_items: 
+        - "/database"
+        - "/redis"
+
+  #Daemon Reload pour pouvoir prendre en compte les changements des services
+  - name: Reload systemd services
+    systemd:
+      daemon_reload: yes
+
+  #Activation du service 
+  - name: enable a timer for dnf-automatic
+    systemd:
+      name: backup_mastodon.service
+      state: started
+      enabled: yes

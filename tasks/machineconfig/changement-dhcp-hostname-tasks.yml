@@ -1,0 +1,28 @@
+---
+  #Configuration du nom de la machine via le module hostname
+    - name: Configuration du hostname
+      hostname:
+       name: "{{ LOCAL_DOMAIN }}"
+
+  #Modifiction du nom de la machine dans le fichier /etc/hosts via la commande lineinfile qui ajoute modifie ou remplace une ligne ici on remplace la ligne 
+  #qui commence par 127.0.0.1 par 127.0.1.1 localmastodon.com localmastodon
+    - name: Resolution du hostname
+      lineinfile:
+        regexp: ^127\.0\.1\.1\s.*$
+        line: "127.0.1.1 {{ LOCAL_DOMAIN }}.com {{ LOCAL_DOMAIN }}"
+        path: /etc/hosts
+
+  #Modification du serveur dns utilisé par la machine via la commande lineinfile qui ajoute modifie ou remplace une ligne ici on remplace la ligne 
+  #qui commence par prepend domain-name-servers par prepend domain-name-servers 8.8.8.8; et on enregistre le résultat de la modification dans la variable
+  #dhclient_conf
+    - name: Configurer dhclient
+      lineinfile:
+        regexp: ^#?prepend domain\-name\-servers .*$
+        line: "prepend domain-name-servers 8.8.8.8;"
+        path: /etc/dhcp/dhclient.conf
+      register: dhclient_conf
+
+  #On redémarre les serveurs via le module reboot seulement si le résultat de la commande précédente à changer (si le dns a été modifié)
+    - name: Redémarrer les serveurs
+      reboot:
+      when: dhclient_conf.changed

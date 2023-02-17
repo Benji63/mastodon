@@ -1,0 +1,27 @@
+---
+  #Copy des services mastodon dans le dossier des services du système
+    - name: Copy mastodon service to system
+      copy:
+        src: /home/mastodon/live/dist/{{ item }}
+        dest: /etc/systemd/system/
+        remote_src: yes
+      with_items:
+        - mastodon-web.service
+        - mastodon-streaming.service
+        - mastodon-sidekiq.service
+
+  #Daemon Reload pour pouvoir prendre en compte les changements des services
+    - name: Reload systemd services
+      systemd:
+        daemon_reload: yes
+
+  #Activation des services et lancement 
+    - name: enable a timer for dnf-automatic
+      systemd:
+        name: "{{ item }}"
+        state: started
+        enabled: yes
+      with_items:
+         - mastodon-web.service
+         - mastodon-streaming.service 
+         - mastodon-sidekiq.service

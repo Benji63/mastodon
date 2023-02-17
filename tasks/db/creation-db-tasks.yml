@@ -1,0 +1,33 @@
+--- 
+
+  #Creation d'une base de donnée nommée mastodon via le module postgresql_db
+    - name: Create database mastodon
+      become_user: "{{ db }}"
+      postgresql_db:
+        name: "{{ DB_USER }}" #mastodon
+        state: present
+
+  #Creation de l'utilisateur mastodon qui a le privilège de créer des bases de données via le module postgresql_user
+    - name: Create database user mastodon
+      become_user: "{{ db }}"
+      postgresql_user:
+        name: "{{ DB_USER }}"
+        password: "{{ DB_PASS }}"
+        role_attr_flags: CREATEDB
+
+  #Donner les privileges à l'utilisateur mastodon via le module postgresql_privs
+    - name: Grant db user access to db
+      postgresql_privs:
+        type: database
+        database: "{{ DB_USER }}"
+        roles: "{{ DB_USER }}"
+        grant_option: false
+        privs: all
+      become_user: "{{ db }}"
+
+  #Donner privileges utilisateur mastodon pour créer les bases de données
+    - name: Create user grant privs
+      become_user: "{{ db }}"
+      community.postgresql.postgresql_user:
+        name: "{{ DB_USER }}"
+        role_attr_flags: CREATEDB

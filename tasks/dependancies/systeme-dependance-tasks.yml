@@ -1,0 +1,14 @@
+---
+  #On installe la première partie des dépendances utilisés par mastodon via le module apt 
+    - name: Install system repository
+      apt:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      loop:
+          - curl
+          - wget
+          - gnupg
+          - apt-transport-https
+          - lsb-release
+          - ca-certificates

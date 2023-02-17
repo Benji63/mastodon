@@ -1,0 +1,10 @@
+[Unit]
+Description=Service Mastodon Backup
+
+[Service]
+Type=simple
+User=root
+ExecStart=/opt/backup_mastodon.sh
+
+[Install]
+WantedBy=multi-user.target

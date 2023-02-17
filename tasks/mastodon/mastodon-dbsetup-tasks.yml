@@ -1,0 +1,15 @@
+---
+  #Verifier si le fichier dbcreated est présent et enregistrement du résultat dans la variable file_exists
+    - name: Check if PostgreSQL database exists
+      stat:
+        path: /home/mastodon/live/dbcreated
+      register: file_exists
+
+  #Lancement de db:setup et creation d'un fichier si le fichier existe deja ne pas faire cette tache 
+    - name: Lancer db:setup ###Pas d idee pour changer ça
+      shell: |
+        RAILS_ENV=production /home/mastodon/.rbenv/shims/bundle exec rails db:setup
+        touch dbcreated
+      args:
+         chdir: /home/mastodon/live
+      when: file_exists.stat.exists == False

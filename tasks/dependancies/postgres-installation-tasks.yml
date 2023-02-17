@@ -1,0 +1,13 @@
+---
+  #Récupération du fichier ACCC4CF8.asc via le module curl et création d'un fichier avec le contenu nommé postgresql.asc
+    - name: Download postgres key
+      get_url:
+        url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+        dest: /usr/share/keyrings/postgresql.asc
+  
+  #Cette tâche ajoutera le dépôt pour les paquets PostgreSQL à la liste des sources apt sur la machine cible, 
+  #ce qui permettra de télécharger et d'installer les paquets à partir de ce dépôt.
+    - name: Creating postgresql.list a file
+      copy:
+        dest: /etc/apt/sources.list.d/postgresql.list
+        content: deb [signed-by=/usr/share/keyrings/postgresql.asc] http://apt.postgresql.org/pub/repos/apt {{ ansible_distribution_release }}-pgdg main

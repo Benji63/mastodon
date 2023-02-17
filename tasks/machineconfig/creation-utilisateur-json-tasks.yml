@@ -1,0 +1,37 @@
+---
+  #Creation de l'utilisateur Mastodon via le module user avec son mot de hasher via sha512
+    - name: Create mastodon user
+      user:
+        name: "mastodon"
+        password: " mastodon | password_hash('sha512') "
+        shell: /bin/bash
+        groups: sudo
+        append: yes
+
+  #Creation d'un fichier vide nommé package.json
+    - name: creer package.json
+      copy:
+        content: ""
+        dest: /home/mastodon/package.json
+        force: yes
+        group: mastodon
+        owner: mastodon
+        mode: 0664
+
+  #Modification de ce fichier et ajout de lignes par défaut
+    - name: Modify package.json
+      lineinfile:
+        dest: /home/mastodon/package.json
+        line: "{{ item.line }}"
+      loop:
+        - { line: '{' }
+        - { line: '  "name": "mastodon",' }
+        - { line: '  "version": "1.0.0",' }
+        - { line: '  "description": "",' }
+        - { line: '  "main": "index.js",' }
+        - { line: '  "scripts": {' }
+        - { line: '    "test": "echo \"Error: no test specified\" && exit 1"' }
+        - { line: '  },' }
+        - { line: '  "author": "",' }
+        - { line: '  "license": "ISC"' }
+        - { line: '}' }

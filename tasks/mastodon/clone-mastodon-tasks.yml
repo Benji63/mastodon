@@ -1,0 +1,8 @@
+---
+  #Clone du dépot de git mastodon via module git
+    - name: Changement de user en mastodon et Clone de mastodon git
+      become_user: mastodon
+      git:
+          repo: https://github.com/mastodon/mastodon.git
+          dest: ~/live
+          force: yes

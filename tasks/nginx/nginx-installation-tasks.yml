@@ -1,0 +1,66 @@
+---
+  #Creation d'un dossier certificate via le module file
+    - name: Create a directory 
+      ansible.builtin.file:
+        path: ~/certificate
+        state: directory
+        mode: '0755'
+      become_user: mastodon
+    
+  #Creation d'une clé privée via le module openssl_privatekey
+    - name: Create private key (RSA, 4096 bits)
+      community.crypto.openssl_privatekey:
+        path: ~/certificate/certificate.pem
+      become_user: mastodon
+    
+  #Création d'un certificat autosigné via le module x509_certificate
+    - name: Create simple self-signed certificate
+      community.crypto.x509_certificate:
+        path: ~/certificate/certificate.crt
+        privatekey_path: ~/certificate/certificate.pem
+        provider: selfsigned
+      become_user: mastodon
+
+  #Génération de DH parameters sur 1024 octets
+    - name: Generate DH parameters
+      command: openssl dhparam -out /home/mastodon/certificate/dhparam.pem 1024
+
+  #Modification du fichier nginx.conf et ajout des certificats clés privés etc
+    - name: Ajout certificat, clé privée et ssl
+      lineinfile:
+        dest: /home/mastodon/live/dist/{{ http_server }}.conf
+        regexp: "{{ item.regexp }}"
+        line:  "{{ item.line }}"
+      loop:
+        - { regexp: '^\s*#\s*ssl_certificate\s', line: '  ssl_certificate    /home/mastodon/certificate/certificate.crt;' }
+        - { regexp: '^\s*#\s*ssl_certificate_key\s', line: '  ssl_certificate_key /home/mastodon/certificate/certificate.pem;' }
+        - { regexp: '^\s*ssl_protocols\s', line: '  ssl_protocols TLSv1 TLSv1.1 TLSv1.2;' }
+        - { regexp: '^\s*ssl_ciphers\s', line: '  ssl_ciphers EECDH+ECDSA+AESGCM:EECDH+aRSA+AESGCM:EECDH+ECDSA+SHA512:EECDH+ECDSA+SHA384:EECDH+ECDSA+SHA256:ECDH+AESGCM:ECDH+AES256:DH+AESGCM:DH+AES256:RSA+AESGCM:!aNULL:!eNULL:!LOW:!RC4:!3DES:!MD5:!EXP:!PSK:!SRP:!DSS;' }
+        - { regexp: '^\s*ssl_session_cache\s', line: '  ssl_session_cache shared:TLS:2m;' }
+        - { regexp: '^\s*add_header\sStrict-Transport-Security\s', line: '  add_header Strict-Transport-Security "max-age=31536000; includeSubDomains";' }
+        - { regexp: '^\s*ssl_session_tickets\s', line: '  ssl_session_tickets off;' }
+
+  #Suite de la modification du fichier à insérer apres la ligne   ssl_session_tickets off;
+    - name: insérer la suite
+      lineinfile:
+        path: /home/mastodon/live/dist/{{ http_server }}.conf
+        line: "{{ item.line }}"
+        insertafter: "  ssl_session_tickets off;"
+      loop:
+        - { line: '  ssl_stapling on;' }
+        - { line: '  ssl_stapling_verify on;' }
+        - { line: '  resolver 8.8.8.8;' }
+        - { line: '  ssl_dhparam /home/mastodon/certificate/dhparam.pem;' }
+
+  #Modification du fichier production.rb pour autoriser toutes les IPs à se connecter à mastodon via le module lineinfile
+    - name: Allow All IPs
+      lineinfile:
+        path: /home/mastodon/live/config/environments/production.rb
+        line: "{{ item.line }}"
+        insertafter: "  # Settings specified here will take precedence over those in config/application.rb."
+      loop:
+        - { line: '  ]' }
+        - { line: '   "localhost",' }
+        - { line: '   IPAddr.new("::/0"),' }
+        - { line: '   IPAddr.new("0.0.0.0/0"),' }
+        - { line: '  config.hosts = [' }

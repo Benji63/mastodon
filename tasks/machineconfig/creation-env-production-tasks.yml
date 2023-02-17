@@ -1,0 +1,31 @@
+---
+ #Creation et remplissage du fichier .env.production via le module copy
+    - name: creer .env.production
+      copy:
+        content: "LOCAL_DOMAIN={{ LOCAL_DOMAIN }}\n
+          SINGLE_USER_MODE=true\n
+          SECRET_KEY_BASE=82492c9b90d8d96a8394289c9dc77ebe0d263af6b83437a3c1990df83cacdf0ca923248be982bd38134fb5f27091d4ff9eb4511703f5cd0a508989574cbcff1e\n
+          OTP_SECRET==7ff29c3ee22c4fd435a6641cd47ea70237b6008f98cacfdf97ba26379f2954b94abc19fa31853cf70a1886688f4a3b76de7edc82ea9500338ad6308d708ff788\n
+          VAPID_PRIVATE_KEY=Aja_kCSt282O3ZRtmnejzycED4u9CiTMMLnYLZ6Otr4=\n
+          VAPID_PUBLIC_KEY=BCc7hYxH0mQuJnt69P_7rhDGIo7JwrXU6FDq88_jJtPfC6jB8vQVX11Xpx4CgDOfCke1nUKXxDDFkRQVkBcoGRg=\n
+          DB_HOST={{ DB_HOST }}\n
+          DB_PORT={{ DB_PORT }}\n
+          DB_NAME={{ DB_NAME }}\n
+          DB_USER={{ DB_USER }}\n
+          DB_PASS={{ DB_PASS }}\n
+          REDIS_HOST={{ REDIS_HOST }}\n
+          REDIS_PORT={{ REDIS_PORT }}\n
+          REDIS_PASSWORD=\n
+          SMTP_SERVER={{ SMTP_SERVER }}\n
+          SMTP_PORT={{ SMTP_PORT }}\n
+          SMTP_LOGIN={{ SMTP_LOGIN }}\n
+          SMTP_PASSWORD={{ SMTP_PASSWORD }}\n
+          SMTP_AUTH_METHOD=plain\n
+          SMTP_OPENSSL_VERIFY_MODE=none\n
+          SMTP_ENABLE_STARTTLS=auto\n
+          SMTP_FROM_ADDRESS={{ SMTP_FROM_ADDRESS }}\n"
+        dest: /home/mastodon/live/.env.production
+        force: yes
+        group: mastodon
+        owner: mastodon
+        mode: 0664

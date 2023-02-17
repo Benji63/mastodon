@@ -1,0 +1,58 @@
+---
+  #On installe la deuxième partie des dépendances utilisés par mastodon via le module apt et on ressaie d installer une deuxieme fois si le premier essai est
+  #Infructueux
+    - name: Install postgres along with dependencies of system
+      apt:
+         name: "{{ item }}"
+         state: present
+         update_cache: yes
+         force: yes
+      loop:
+         - imagemagick
+         - ffmpeg
+         - libpq-dev
+         - libxml2-dev
+         - libxslt1-dev
+         - file
+         - git-core
+         - g++
+         - libprotobuf-dev
+         - protobuf-compiler
+         - pkg-config
+         - nodejs
+         - gcc
+         - autoconf
+         - bison
+         - build-essential
+         - libssl-dev
+         - libyaml-dev
+         - libreadline6-dev
+         - zlib1g-dev
+         - libncurses5-dev
+         - libffi-dev
+         - libgdbm-dev
+         - "{{ http_server }}"
+         - redis-server
+         - redis-tools
+         - postgresql
+         - postgresql-contrib
+         - certbot
+         - python3-certbot-nginx
+         - libidn11-dev
+         - libicu-dev
+         - libjemalloc-dev
+         - pip
+         - acl
+         - expect
+         - ruby-full 
+         - build-essential
+         - python3-pip
+      register: apt_res
+      retries: 2
+      until: apt_res is success
+
+  #La premiere commande active le "corepack" et la seconde met en place la version classic de yarn
+    - name: Set yarn version #Essayer de trouver une autre option
+      shell: |
+          corepack enable
+          yarn set version classic
