@@ -35,17 +35,6 @@ sudo apt-get install git
 ```
 
 
-- Installer pip :
-
-```bash
-sudo apt install python3-pip
-```
-
-ou
-```bash
-wget https://bootstrap.pypa.io/get-pip.py -O get-pip.py python3 get-pip.py --user
-```
-
 - Installer Ansible :
 ```bash
 sudo apt-get install ansible 
