@@ -4,20 +4,20 @@
   connection: ssh
   tasks:
 
-    # - name: Changement de hostname et de dns
-    #   include_tasks: tasks/machineconfig/changement-dhcp-hostname-tasks.yml
+     - name: Changement de hostname et de dns
+       include_tasks: tasks/machineconfig/changement-dhcp-hostname-tasks.yml
 
-    # - name: Installation dependances
-    #   include_tasks: tasks/dependancies/systeme-dependance-tasks.yml
+     - name: Installation dependances
+       include_tasks: tasks/dependancies/systeme-dependance-tasks.yml
 
-    # - name: Installation du module setup_16.x
-    #   include_tasks: tasks/dependancies/nodejs-install-tasks.yml
+     - name: Installation du module setup_16.x
+       include_tasks: tasks/dependancies/nodejs-install-tasks.yml
 
-    # - name: Installation du module postgres
-    #   include_tasks: tasks/dependancies/postgres-installation-tasks.yml
+     - name: Installation du module postgres
+       include_tasks: tasks/dependancies/postgres-installation-tasks.yml
 
-    # - name: Installation suite dependances and enable corepack
-    #   include_tasks: tasks/dependancies/systeme-dependance-2-tasks.yml
+     - name: Installation suite dependances and enable corepack
+       include_tasks: tasks/dependancies/systeme-dependance-2-tasks.yml
 
     - name: Creation User and Package.json
       include_tasks: tasks/machineconfig/creation-utilisateur-json-tasks.yml
