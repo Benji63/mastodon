@@ -12,19 +12,33 @@
 ----------
 
 
- ### MACHINE HOTE 
+ ### MACHINE HOTE
+- Se connecter en root 
 
+```shell
+apt-get install sudo
+```
+ - Se connecter en utulisateur 
+
+- Si vous n'arriver pas a faire sudo avec l'utulisateur rajouter votre utulisateur en dessous du `root` dans le dossier `/etc/sudoers`
+
+- Mettre a jour la machine 
+
+```shell
+sudo apt-get update
+sudo apt-get upgrade
+```
 
 - Installer GIT:
 ```bash
-apt-get install git
+sudo apt-get install git
 ```
 
 
 - Installer pip :
 
 ```bash
-apt install python3-pip
+sudo apt install python3-pip
 ```
 
 ou
@@ -34,8 +48,12 @@ wget https://bootstrap.pypa.io/get-pip.py -O get-pip.py python3 get-pip.py --use
 
 - Installer Ansible :
 ```bash
-python3 -m pip install --user ansible
-python3 -m pip install --upgrade --user ansible
+sudo apt-get install ansible 
+```
+- Verifier que ansible est bien installer
+
+```shell
+ansible --v
 ```
 
 - Installer "sshpass" pour pouvoir se connecter avec un utulisateur classique
@@ -44,7 +62,9 @@ sudo apt install sshpass
 ```
 
 
-- Crée un dossier ou on pourra mettre les fichier de deployement
+- Crée un dossier ou on pourra mettre les fichier de deployement `mkdir 'nomdossier' `
+
+- Ce rendre dans le dossier (`cd 'nomdossier'`)
 
 - Executer la commande pour cloner le projet depuis git
 ```bash
