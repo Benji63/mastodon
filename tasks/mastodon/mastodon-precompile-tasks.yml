@@ -1,6 +1,6 @@
 ---
 
-    - name: Recursively change ownership of a live directory
+    - name: Change les permissions récursivement du dossier live
       ansible.builtin.file:
         path: /home/mastodon/live
         state: directory
@@ -17,7 +17,7 @@
          chdir: /home/mastodon/live
 
   #Lancement de rbenv init
-    - name: Configure mastodon
+    - name: Configurer mastodon
       become_user: mastodon
       shell: eval "$(rbenv init -)"
       args:

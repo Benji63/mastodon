@@ -1,13 +1,6 @@
 ---
-  #Clone du dépot de git mastodon via module git
-  #   - name: Changement de user en mastodon et Clone de mastodon git
-  #     become_user: mastodon
-  #     git:
-  #         repo: https://github.com/mastodon/mastodon.git
-  #         dest: ~/live
-  #         force: yes
   #Verification de la bonne réception du git, configuration du bundle et installation de yarn
-    - name: Gitcheckout and bundle config
+    - name: Gitcheckout et bundle config
       become_user: mastodon
       shell: |
          git checkout $(git tag -l | grep -v 'rc[0-9]*$' | sort -V | tail -n 1)
@@ -19,7 +12,7 @@
         chdir: /home/mastodon
 
   #Ajout de la variable d'environnement RAILS_ENV=production au fichier .bashrc via le module lineinfile
-    - name: Fix RAILS_ENV=production variable
+    - name: Correction RAILS_ENV=production variable
       become_user: mastodon
       lineinfile:
         path: ~/.bashrc
@@ -27,7 +20,7 @@
         insertafter: EOF
 
   #Initialisation de rbenv et installation de bundle
-    - name: Run bundle install before mastodon configure # a modifier
+    - name: Exécutez l'installation du bundle avant la configuration de mastodon
       shell: |
          eval "$(rbenv init -)"
          /home/mastodon/.rbenv/shims/bundle install

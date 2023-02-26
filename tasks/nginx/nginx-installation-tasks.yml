@@ -1,6 +1,6 @@
 ---
   #Creation d'un dossier certificate via le module file
-    - name: Create a directory 
+    - name: Creer un dossier 
       ansible.builtin.file:
         path: ~/certificate
         state: directory
@@ -8,13 +8,13 @@
       become_user: mastodon
     
   #Creation d'une clé privée via le module openssl_privatekey
-    - name: Create private key (RSA, 4096 bits)
+    - name: Creation d'une clée privée (RSA, 4096 bits)
       community.crypto.openssl_privatekey:
         path: ~/certificate/certificate.pem
       become_user: mastodon
     
   #Création d'un certificat autosigné via le module x509_certificate
-    - name: Create simple self-signed certificate
+    - name: Creation d'un simple certificat auto-signé
       community.crypto.x509_certificate:
         path: ~/certificate/certificate.crt
         privatekey_path: ~/certificate/certificate.pem
@@ -22,7 +22,7 @@
       become_user: mastodon
 
   #Génération de DH parameters sur 1024 octets
-    - name: Generate DH parameters
+    - name: Generation de "DH parameters"
       command: openssl dhparam -out /home/mastodon/certificate/dhparam.pem 1024
 
   #Modification du fichier nginx.conf et ajout des certificats clés privés etc
@@ -53,7 +53,7 @@
         - { line: '  ssl_dhparam /home/mastodon/certificate/dhparam.pem;' }
 
   #Modification du fichier production.rb pour autoriser toutes les IPs à se connecter à mastodon via le module lineinfile
-    - name: Allow All IPs
+    - name: Autoriser toutes les IP
       lineinfile:
         path: /home/mastodon/live/config/environments/production.rb
         line: "{{ item.line }}"

@@ -1,6 +1,6 @@
 ---
   #On installe la première partie des dépendances utilisés par mastodon via le module apt 
-    - name: Install system repository
+    - name: Installation premiere partie des packages
       apt:
         name: "{{ item }}"
         state: present

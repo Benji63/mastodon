@@ -1,6 +1,6 @@
 ---
  #Creation et remplissage du fichier .env.production via le module copy
-    - name: creer .env.production
+    - name: Creer .env.production
       copy:
         content: "LOCAL_DOMAIN={{ LOCAL_DOMAIN }}\n
           SINGLE_USER_MODE=true\n

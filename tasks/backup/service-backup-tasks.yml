@@ -6,7 +6,7 @@
        dest: /opt/backup_mastodon.sh
   
   #Modification des permissions du script backup_mastodon.sh ajout du mode executable (+x)
-  - name: Changing perm adding "+x"
+  - name: Changement des permissions ajout de "+x"
     file: dest=/opt/backup_mastodon.sh mode=a+x
 
   #Ajout d'un nouveau service pour les backup
@@ -31,12 +31,12 @@
         - "/redis"
 
   #Daemon Reload pour pouvoir prendre en compte les changements des services
-  - name: Reload systemd services
+  - name: Recharger les services systemd
     systemd:
       daemon_reload: yes
 
   #Activation du service 
-  - name: enable a timer for dnf-automatic
+  - name: activer un timer pour dnf-automatic
     systemd:
       name: backup_mastodon.service
       state: started

@@ -1,6 +1,6 @@
 ---
   #Installation des packages npm via le module npm
-    - name: Install node.js package.
+    - name: Installation des packages node.js
       npm:
         name: "{{ item }}"
         path: /home/mastodon

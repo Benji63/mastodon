@@ -1,7 +1,7 @@
 ---
   #On installe la deuxième partie des dépendances utilisés par mastodon via le module apt et on ressaie d installer une deuxieme fois si le premier essai est
   #Infructueux
-    - name: Install postgres along with dependencies of system
+    - name: Installation de toutes les dependences nécessaires
       apt:
          name: "{{ item }}"
          state: present
@@ -43,7 +43,6 @@
          - libjemalloc-dev
          - pip
          - acl
-         - expect
          - ruby-full 
          - build-essential
          - python3-pip
@@ -52,7 +51,7 @@
       until: apt_res is success
 
   #La premiere commande active le "corepack" et la seconde met en place la version classic de yarn
-    - name: Set yarn version #Essayer de trouver une autre option
+    - name: Mise en place de la version yarn
       shell: |
           corepack enable
           yarn set version classic

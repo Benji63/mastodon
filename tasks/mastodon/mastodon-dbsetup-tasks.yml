@@ -1,6 +1,6 @@
 ---
   #Verifier si le fichier dbcreated est présent et enregistrement du résultat dans la variable file_exists
-    - name: Check if PostgreSQL database exists
+    - name: Vérifie si la base de donnée PostgreSQL existe
       stat:
         path: /home/mastodon/live/dbcreated
       register: file_exists

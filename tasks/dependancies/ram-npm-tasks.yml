@@ -1,13 +1,13 @@
 ---
   #Ajout d'un variable d'environement pour autoriser à prendre maximum 4 go de ram à npm
-    - name: fix Out Of memory npm i
+    - name: correction mémoire insuffisante npm i
       lineinfile:
         path: ~/.profile
         line: "export NODE_OPTIONS=--max-old-space-size={{ dedicated_ram }}"
         insertafter: EOF
 
   #Installation des dependances npm via le module npm
-    - name: Install npm dependencies #plante pour le premier coup si la machine fait 2go de ram
+    - name: Installation des dépendances npm
       npm:
         path: /home/mastodon/
         state: present

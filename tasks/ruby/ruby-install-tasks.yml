@@ -8,12 +8,12 @@
           force: yes
 
   #"make" de la configuration de rbenv
-    - name: make configure ##Trouver autre solution
+    - name: Lancement du "make configure"
       become_user: mastodon
       shell: cd ~/.rbenv && src/configure && make -C src
 
   #Ajout de  variables d'environnements au fichier .bashrc via le module lineinfile
-    - name: Add rbenv to PATH
+    - name: Ajout de rbenv au $PATH
       become_user: mastodon
       lineinfile:
         path: ~/.bashrc
@@ -39,22 +39,15 @@
           force: yes
 
   #Installation de rbenv sous l'utilisateur mastodon
-    - name: Rbenv Global
+    - name: Rbenv Global installation
       shell: | 
           RUBY_CONFIGURE_OPTS=--with-jemalloc ~/.rbenv/bin/rbenv install $(cat live/.ruby-version)
           ~/.rbenv/bin/rbenv global $(cat live/.ruby-version)
       become_user: mastodon
       args: 
         chdir: /home/mastodon
-        ## #$(rbenv install --list | grep -v - | tail -1)
-        # Vrbenv=$(cat live/.ruby-version)
-          # $Vrbenv >> ~/.bashrc
-          # RUBY_CONFIGURE_OPTS=--with-jemalloc ~/.rbenv/bin/rbenv install $Vrbenv
-          # ~/.rbenv/bin/rbenv global $Vrbenv
-
-
 
   #Installation du package pyscopg2 via le module pip
-    - name: Install bottle python package
+    - name: Installation du paquet bottle python
       ansible.builtin.pip:
         name: psycopg2

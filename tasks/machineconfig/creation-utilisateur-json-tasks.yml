@@ -1,6 +1,6 @@
 ---
   #Creation de l'utilisateur Mastodon via le module user avec son mot de hasher via sha512
-    - name: Create mastodon user
+    - name: Creation de l'utilisateur mastodon
       user:
         name: "mastodon"
         password: " mastodon | password_hash('sha512') "
@@ -9,7 +9,7 @@
         append: yes
 
   #Creation d'un fichier vide nommé package.json
-    - name: creer package.json
+    - name: Creer package.json
       copy:
         content: ""
         dest: /home/mastodon/package.json
@@ -19,7 +19,7 @@
         mode: 0664
 
   #Modification de ce fichier et ajout de lignes par défaut
-    - name: Modify package.json
+    - name: Modifier package.json
       lineinfile:
         dest: /home/mastodon/package.json
         line: "{{ item.line }}"
