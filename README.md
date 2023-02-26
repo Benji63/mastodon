@@ -124,3 +124,5 @@ ansible-playbook mastodon.yml
 > https://'ipclient'
 
 - Vous aurez un avertissement , il suffit de cliquer sur `avencé` -> `continuer vers ...`
+
+> Vidéo prouvant le bon fonctionnement du script : https://youtu.be/DxQeX9kYOdU
