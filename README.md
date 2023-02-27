@@ -4,9 +4,9 @@
 
 ## Prerequis
 
-- Une Machine virtuelle Linux (Debian,ubuntu) qui aura le role d'hote
-- Une Machine virtuelle Linux (Debian,ubuntu) qui aura le role de client
-- D'un accés a  internet pour l'installation
+- Une Machine virtuelle Linux (Debian,ubuntu) qui aura le rôle d'hôte
+- Une Machine virtuelle Linux (Debian,ubuntu) qui aura le rôle de client
+- D'un accés à internet pour l'installation
 
 
 ----------
@@ -18,11 +18,11 @@
 ```shell
 apt-get install sudo
 ```
- - Se connecter en utulisateur 
+ - Se connecter en utilisateur 
 
-- Si vous n'arriver pas a faire sudo avec l'utulisateur rajouter votre utulisateur en dessous du `root` dans le dossier `/etc/sudoers` en utulisateur root
+- Si vous n'arrivez pas à faire sudo avec l'utilisateur rajouter votre utilisateur en dessous du `root` dans le dossier `/etc/sudoers` en utilisateur root
 
-- Mettre a jour la machine 
+- Mettre à jour la machine 
 
 ```shell
 sudo apt-get update
@@ -39,21 +39,21 @@ sudo apt-get install git
 ```bash
 sudo apt-get install ansible 
 ```
-- Verifier que ansible est bien installer
+- Vérifier que ansible est bien installé
 
 ```shell
 ansible --v
 ```
 
-- Installer "sshpass" pour pouvoir se connecter avec un utulisateur classique
+- Installer "sshpass" pour pouvoir se connecter avec un utilisateur classique
 ```bash
 sudo apt install sshpass
 ```
 
 
-- Crée un dossier ou on pourra mettre les fichier de deployement `mkdir 'nomdossier' `
+- Créer un dossier où on pourra mettre les fichiers de deploiement `mkdir 'nomdossier' `
 
-- Ce rendre dans le dossier (`cd 'nomdossier'`)
+- Se rendre dans le dossier (`cd 'nomdossier'`)
 
 - Executer la commande pour cloner le projet depuis git
 ```bash
@@ -69,23 +69,23 @@ git clone https://github.com/Benji63/mastodon
 ### MACHINE CLIENTE
 
 
-- Finir l'installation de l'os (Debian dans notre cas) en cochant dans l'installation "serveur ssh" pour que le script ansible puisse se lancé
+- Finir l'installation de l'os (Debian dans notre cas) en cochant dans l'installation "serveur ssh" pour que le script ansible puisse se lancer
 
-- Si ce n'est pas le cas executer la commande
+- Si ce n'est pas le cas éxecuter la commande
 ```bash
 apt-get install openssh-server
 ```
 
-- On part du principe que sudo et installé et que l'utilisateur est dans le fichier sudoers (`nano /etc/sudoers` puis meme manipulation que pour la machine hôte)
+- On part du principe que sudo est installé et que l'utilisateur est dans le fichier sudoers (`nano /etc/sudoers` puis même manipulation que pour la machine hôte)
 
-- Recuperer l'adresse IP via `ip a`
+- Récuperer l'adresse IP via `ip a`
 
 
 ----------
  ### MACHINE HOTE 
- mettre l'IP dans le clients dans le fichier `inventory.ini`, en dessous de la variable `[mastodon]`
+ mettre l'IP du client dans le fichier `inventory.ini`, en dessous de la variable `[mastodon]` et `[db]`
 
-- Dans le même fichier , personnaliser les champs suivant avec un utulisateur qui a les droit sudoeurs
+- Dans le même fichier , personnaliser les champs suivant avec un utilisateur qui a les droit sudoers
 ```bash
 ansible_ssh_user 
 ansible_ssh_password 
@@ -93,7 +93,7 @@ ansible_become_password
 ```
 
 
-- Dans le fichier `mastodon` qui se trouve dans le dossier `groupe_vars`, vous pouvez modifier les champs suivant a votre guise : 
+- Dans le fichier `mastodon` qui se trouve dans le dossier `groupe_vars`, vous pouvez modifier les champs suivant à votre guise : 
 
 ```bash
 http_server #nginx ou apache2
@@ -108,22 +108,22 @@ SMTP_PASSWORD #a changer uniquement si vous possedez deja un serveur SMTP
 ```
 ### Lancement du script
 
-- Retourner dans le fichier de base `Mastodon` qui a etait par la telechager par la commande `git clone`
+- Retourner dans le fichier de base `Mastodon` qui a été telechargé par la commande `git clone`
 
-- Sur la machine hote Se rendre dans le dossier ou se trouve fichier `mastodon.yml` normalement present dans le dossier `mastodon` que vous avez prealablement telecharger via la commande `git clone`
+- Sur la machine hôte se rendre dans le dossier où se trouve le fichier `mastodon.yml` normalement présent dans le dossier `mastodon` que vous avez préalablement telechargé via la commande `git clone`
 
 - Executer la commande :
 
 ```shell
 ansible-playbook mastodon.yml
 ```
-- Attendre environ 30 minute 
+- Attendre environ 30 minutes
 
-- Se rendre sur le naviguateur et tappé dans la barre de recheche d'url
+- Se rendre sur le naviguateur et taper dans la barre de recheche l'url
 
 > https://'ipclient'
 
-- Vous aurez un avertissement , il suffit de cliquer sur `avencé` -> `continuer vers ...`
+- Vous aurez un avertissement , il suffit de cliquer sur `avancé` -> `continuer vers ...`
 
 > Vidéo prouvant le bon fonctionnement du script : https://youtu.be/DxQeX9kYOdU
 
