@@ -20,7 +20,7 @@ apt-get install sudo
 ```
  - Se connecter en utulisateur 
 
-- Si vous n'arriver pas a faire sudo avec l'utulisateur rajouter votre utulisateur en dessous du `root` dans le dossier `/etc/sudoers`
+- Si vous n'arriver pas a faire sudo avec l'utulisateur rajouter votre utulisateur en dessous du `root` dans le dossier `/etc/sudoers` en utulisateur root
 
 - Mettre a jour la machine 
 
@@ -60,7 +60,7 @@ sudo apt install sshpass
 git clone https://github.com/Benji63/mastodon
 ```
 
-
+- Enfin rentrer dans le dossier avec la commande `cd mastodon`
 
 ----------
 
@@ -76,7 +76,7 @@ git clone https://github.com/Benji63/mastodon
 apt-get install openssh-server
 ```
 
-- On part du principe que sudo et installé et que l'utilisateur est dans le fichier sudoers (`nano /etc/sudoers`)
+- On part du principe que sudo et installé et que l'utilisateur est dans le fichier sudoers (`nano /etc/sudoers` puis meme manipulation que pour la machine hôte)
 
 - Recuperer l'adresse IP via `ip a`
 
@@ -108,7 +108,7 @@ SMTP_PASSWORD #a changer uniquement si vous possedez deja un serveur SMTP
 ```
 ### Lancement du script
 
-
+- Retourner dans le fichier de base `Mastodon` qui a etait par la telechager par la commande `git clone`
 
 - Sur la machine hote Se rendre dans le dossier ou se trouve fichier `mastodon.yml` normalement present dans le dossier `mastodon` que vous avez prealablement telecharger via la commande `git clone`
 
@@ -126,3 +126,10 @@ ansible-playbook mastodon.yml
 - Vous aurez un avertissement , il suffit de cliquer sur `avencé` -> `continuer vers ...`
 
 > Vidéo prouvant le bon fonctionnement du script : https://youtu.be/DxQeX9kYOdU
+
+
+## 🙇 Author
+#### Benjamin PIAT
+#### Jérôme DEFOUR
+#### Cedric GORCE
+        
